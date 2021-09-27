@@ -9,11 +9,22 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/i18n": "^7.0.3",
+    "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
-    "vuetify": "^2.5.5"
+    "nuxt-webfontloader": "^1.1.0",
+    "vuelidate": "^0.7.6",
+    "vuetify": "^2.5.5",
+    "vuex-persistedstate": "^4.0.0"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.12.1"
+    "@nuxtjs/vuetify": "^1.12.1",
+    "fibers": "^5.0.0",
+    "sass": "^1.32.13",
+    "sass-loader": "^10.2.0"
   }
 }

@@ -1,0 +1,149 @@
+<template>
+  <v-container fluid>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title><h1 class="display-1">Account Types</h1>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="d-flex align-self-center"
+              color="primary"
+              to="/account-types/create"
+            >
+              <v-icon left>fas fa-plus-circle</v-icon>
+              <span>Add</span></v-btn
+            >
+          </v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row class="mt-n4">
+      <v-col>
+        <v-card>
+          <v-card-text>
+            <client-only>
+              <v-data-table
+                :headers="headers"
+                :hide-default-footer="true"
+                :items="accountTypesPaginatedData.data"
+                :items-per-page="query.perPage"
+                :loading="isLoading"
+                :options.sync="options"
+                :page="query.page"
+                :pageCount="accountTypesPaginatedData.pagination.total_pages"
+                :server-items-length="accountTypesPaginatedData.pagination.total"
+                :sort-by.sync="query.sortBy"
+                :sort-desc.sync="query.sortDesc"
+                fixed-header
+                loading-text="Fetching data. Please wait..."
+              >
+                <template v-slot:top="{ pagination, options, updateOptions }">
+                  <v-container fluid>
+                    <v-row>
+                      <v-col cols="4">
+                        <v-text-field dense v-model="query.search" append-icon="fas fa-search" filled
+                                      label="Search..." @change="getDataFromApi"
+                                      @click:append="getDataFromApi"
+                        ></v-text-field>
+                      </v-col>
+                      <v-spacer></v-spacer>
+                      <v-col cols="8">
+                        <v-data-footer
+                          :items-per-page-options="[10,25,50,100]"
+                          :options.sync="options"
+                          :pagination="pagination"
+                          :show-first-last-page="true"
+                          first-icon="fas fa-angle-double-left"
+                          items-per-page-text="$vuetify.dataTable.itemsPerPageText"
+                          last-icon="fas fa-angle-double-right"
+                          next-icon="fas fa-angle-right"
+                          prev-icon="fas fa-angle-left"
+                          @update:options="updateOptions"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </template>
+                <template v-slot:item.actions="{ item }" >
+                  <div class="d-flex justify-content-center align-items-center">
+                    <v-btn :to=" `/account-types/edit/${item.id}` " fab icon x-small>
+                      <v-icon>fas fa-pencil-alt</v-icon>
+                    </v-btn>
+                    <v-btn color="error" fab icon x-small @click="confirm(item)">
+                      <v-icon>fas fa-trash-alt</v-icon>
+                    </v-btn>
+                  </div>
+                </template>
+              </v-data-table>
+            </client-only>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import {mapActions, mapGetters} from "vuex";
+
+export default {
+  name: 'index',
+  data() {
+    return {
+      query: {
+        page: 1,
+        search: '',
+        perPage: 10,
+      },
+      options: {},
+      headers: [
+        {text: "#", value: "actions", width: "1%"},
+        {text: "Title", value: "title"},
+      ],
+    };
+  },
+  watch: {
+    //this one will populate new data set when accountType changes current page.
+    options: {
+      handler(e) {
+        this.query.page = e.page;
+        this.query.perPage = e.itemsPerPage;
+        this.getDataFromApi();
+      },
+      deep: true,
+    },
+  },
+  created() {
+    this.getDataFromApi();
+  },
+  computed: {
+    ...mapGetters("accountType", [
+      "accountTypeList", "accountTypesPaginatedData", "isLoading", "isDeleting",
+    ])
+  },
+  methods: {
+    ...mapActions("accountType", [
+      "fetchAllAccountTypes", "deleteAccountType"
+    ]),
+    getDataFromApi() {
+      this.fetchAllAccountTypes(this.query);
+    },
+    confirm(item) {
+      const temp = this;
+      this.$root.confirm('Confirm Delete', 'Are you sure you want to delete ' + item.title + '?', {color: 'red'}).then((confirm) => {
+        temp.deleteAccountType(item.id);
+        temp.fetchAllAccountTypes({
+          page: 1,
+          search: '',
+          perPage: 10,
+        });
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+
+</style>
