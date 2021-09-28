@@ -275,7 +275,8 @@
       "dashboard": "Dashboard",
       "users": "Users",
       "accountTypes": "Account Types",
-      "itemCategories": "Item Categories"
+      "itemCategories": "Item Categories",
+      "itemSubCategories": "Item Sub Categories"
     }
   },
   "np": {
@@ -283,7 +284,8 @@
       "dashboard": "ड्यासबाेर्ड",
       "users": "प्रयोगकर्ताहरु",
       "accountTypes": "खाता प्रकारहरु",
-      "itemCategories": "सामाग्री बर्गिकरणहरू"
+      "itemCategories": "सामाग्री बर्गिकरणहरू",
+      "itemSubCategories": "सामाग्रीका थप बर्गिकरणहरू "
     }
   }
 }
@@ -327,6 +329,11 @@ export default {
           title: "navigationMenuText.itemCategories",
           to: '/item-categories'
         },
+        {
+          icon: 'fas fa-sitemap',
+          title: "navigationMenuText.itemSubCategories",
+          to: '/item-sub-categories'
+        }
       ],
       miniVariant: false,
       right: true,
