@@ -1,21 +1,42 @@
 const state = () => ({
-  itemCategories: [],
+  itemCategories: [
+    {
+      id: null,
+      title: null,
+    }
+  ],
   itemCategoriesPaginatedData: {
-    data: [],
+    data: [
+      {
+        id: null,
+        title: null,
+      }
+    ],
     pagination: {
-      total: null
+      total: null,
+      per_page: null,
     }
   },
   itemCategory: {
-    title: null
+    id: null,
+    title: null,
   },
   isLoading: false,
   isCreating: false,
-  createdData: null,
+  createdData: {
+    id: null,
+    title: null,
+  },
   isUpdating: false,
-  updatedData: null,
+  updatedData: {
+    id: null,
+    title: null,
+  },
   isDeleting: false,
-  deletedData: null
+  deletedData: {
+    id: null,
+    title: null,
+  }
 });
 
 const mutations = {

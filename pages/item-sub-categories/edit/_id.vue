@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="auto">
-        <h1 class="display-1">Item Category Form</h1>
+        <h1 class="display-1">Item Sub Category Form</h1>
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="auto">
@@ -18,6 +18,23 @@
           <v-card>
             <v-card-text>
               <v-row>
+                <v-col cols="6">
+                  <v-autocomplete
+                    v-model="itemSubCategory.item_category_id"
+                    :error-messages="itemCategoryErrors"
+                    :items="resources.itemCategories"
+                    autofocus
+                    filled
+                    item-text="title"
+                    item-value="id"
+                    label="Item Category"
+                    name="item_category_id"
+                    placeholder="Select item category..."
+                    prepend-inner-icon="fas fa-sitemap"
+                    @blur="$v.itemSubCategory.item_category_id.$touch()"
+                    @input="$v.itemSubCategory.item_category_id.$touch()"
+                  ></v-autocomplete>
+                </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="itemSubCategory.title"
@@ -70,9 +87,16 @@ export default {
       !this.$v.itemSubCategory.title.required && errors.push('Title is required.');
       return errors;
     },
+    itemCategoryErrors() {
+      const errors = [];
+      if (!this.$v.itemSubCategory.item_category_id.$dirty) return errors;
+      !this.$v.itemSubCategory.item_category_id.required && errors.push('Item category is required.');
+      return errors;
+    },
   },
   validations: {
     itemSubCategory: {
+      item_category_id: {required},
       title: {required},
     }
   },

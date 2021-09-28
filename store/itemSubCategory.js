@@ -1,21 +1,49 @@
 const state = () => ({
-  itemSubCategories: [],
+  itemSubCategories: [
+    {
+      id: null,
+      item_category_id: null,
+      title: null,
+    }
+  ],
   itemSubCategoriesPaginatedData: {
-    data: [],
+    data: [
+      {
+        id: null,
+        item_category_id: null,
+        title: null,
+      }
+    ],
     pagination: {
-      total: null
+      total: null,
+      per_page: null,
+      current_page: null,
+      total_pages: null
     }
   },
-  itemCategory: {
-    title: null
+  itemSubCategory: {
+    id: null,
+    item_category_id: null,
+    title: null,
   },
   isLoading: false,
   isCreating: false,
-  createdData: null,
+  createdData: {
+    id: null,
+    item_category_id: null,
+    title: null,
+  },
   isUpdating: false,
-  updatedData: null,
+  updatedData: {
+    id: null,
+    item_category_id: null,
+    title: null,
+  },
   isDeleting: false,
-  deletedData: null
+  deletedData: {
+    id: null,
+    title: null,
+  }
 });
 
 const mutations = {
@@ -27,8 +55,8 @@ const mutations = {
     state.itemSubCategoriesPaginatedData = itemSubCategoriesPaginatedData
   },
 
-  setItemSubCategoryDetail: (state, itemCategory) => {
-    state.itemCategory = itemCategory
+  setItemSubCategoryDetail: (state, itemSubCategory) => {
+    state.itemSubCategory = itemSubCategory
   },
 
   setDeleteItemSubCategory: (state, id) => {
@@ -36,19 +64,19 @@ const mutations = {
   },
 
   setItemSubCategoryDetailInput: (state, e) => {
-    let itemCategory = state.itemCategory;
-    itemCategory[e.target.name] = e.target.value;
-    state.itemCategory = itemCategory
+    let itemSubCategory = state.itemSubCategory;
+    itemSubCategory[e.target.name] = e.target.value;
+    state.itemSubCategory = itemSubCategory
   },
 
-  saveNewItemSubCategories: (state, itemCategory) => {
-    state.itemSubCategories.unshift(itemCategory)
-    state.createdData = itemCategory;
+  saveNewItemSubCategories: (state, itemSubCategory) => {
+    state.itemSubCategories.unshift(itemSubCategory)
+    state.createdData = itemSubCategory;
   },
 
-  saveUpdatedItemSubCategory: (state, itemCategory) => {
-    state.itemSubCategories.unshift(itemCategory)
-    state.updatedData = itemCategory;
+  saveUpdatedItemSubCategory: (state, itemSubCategory) => {
+    state.itemSubCategories.unshift(itemSubCategory)
+    state.updatedData = itemSubCategory;
   },
 
   setItemSubCategoryIsLoading(state, isLoading) {
@@ -134,9 +162,9 @@ const actions = {
       });
   },
 
-  async storeItemSubCategory(state, itemCategory) {
+  async storeItemSubCategory(state, itemSubCategory) {
     state.commit('setItemSubCategoryIsCreating', true);
-    await this.$axios.post(`${process.env.BACKEND_API_URL}item-sub-categories`, itemCategory, {
+    await this.$axios.post(`${process.env.BACKEND_API_URL}item-sub-categories`, itemSubCategory, {
       headers: {
         Accept: "application/json",
         Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
@@ -151,10 +179,10 @@ const actions = {
       });
   },
 
-  async updateItemSubCategory(state, itemCategory) {
+  async updateItemSubCategory(state, itemSubCategory) {
     state.commit('setItemSubCategoryIsUpdating', true);
     state.commit('setItemSubCategoryIsUpdating', true);
-    await this.$axios.post(`${process.env.BACKEND_API_URL}item-sub-categories/${itemCategory.id}?_method=PUT`, itemCategory, {
+    await this.$axios.post(`${process.env.BACKEND_API_URL}item-sub-categories/${itemSubCategory.id}?_method=PUT`, itemSubCategory, {
       headers: {
         Accept: "application/json",
         Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
@@ -193,9 +221,9 @@ const actions = {
 };
 
 const getters = {
-  itemCategoryList: state => state.itemSubCategories,
+  itemSubCategoryList: state => state.itemSubCategories,
   itemSubCategoriesPaginatedData: state => state.itemSubCategoriesPaginatedData,
-  itemCategory: state => state.itemCategory,
+  itemSubCategory: state => state.itemSubCategory,
   isLoading: state => state.isLoading,
   isCreating: state => state.isCreating,
   isUpdating: state => state.isUpdating,

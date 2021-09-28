@@ -3,8 +3,6 @@ const state = () => ({
     {
       id: null,
       title: null,
-      created_at: null,
-      updated_at: null
     },
   ],
   accountTypesPaginatedData: {
@@ -12,8 +10,6 @@ const state = () => ({
       {
         id: null,
         title: null,
-        created_at: null,
-        updated_at: null
       },
     ],
     pagination: {
@@ -26,30 +22,22 @@ const state = () => ({
   accountType: {
     id: null,
     title: null,
-    created_at: null,
-    updated_at: null
   },
   isLoading: false,
   isCreating: false,
   createdData: {
     id: null,
     title: null,
-    created_at: null,
-    updated_at: null
   },
   isUpdating: false,
   updatedData: {
     id: null,
     title: null,
-    created_at: null,
-    updated_at: null
   },
   isDeleting: false,
   deletedData: {
     id: null,
     title: null,
-    created_at: null,
-    updated_at: null
   }
 });
 
