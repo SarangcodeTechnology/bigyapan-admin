@@ -1,14 +1,36 @@
 <template>
   <v-app>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/">
-      Home page
-    </NuxtLink>
+    <v-container class="fill-height" fluid>
+      <v-row align="center" justify="center">
+        <v-col cols="6">
+          <v-card shaped class="pa-6" elevation="0">
+            <v-card-title><h1 class="display-4 font-weight-bold">
+              OOPS !</h1>
+            </v-card-title>
+            <v-divider/>
+            <v-card-subtitle><h1 v-if="error.statusCode===404" class="display-1 text-uppercase">
+              Page not found</h1>
+              <h1 v-else class="display-1 text-uppercase">
+                Something went wrong</h1></v-card-subtitle>
+            <v-card-text>
+              <h1 class="title"><strong>ERROR CODE {{ error.statusCode }}</strong></h1>
+              <p v-if="error.statusCode===404" class="body-1 pt-2">Sorry for the inconvenience, but the page you are
+                looking for might have been removed, had its name changed or is temporarily unavailable.</p>
+              <p v-else class="body-1 pt-2">Sorry for the inconvenience, but it seems like an error has been occurred.
+                You can try going back or returning to the dashboard and continue from there.</p>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn x-large color="primary" :to="localePath('/')">
+                To Dashboard
+                <v-icon right>fas fa-tachometer-alt</v-icon>
+
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
   </v-app>
 </template>
 
@@ -21,13 +43,10 @@ export default {
       default: null
     }
   },
-  data () {
-    return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
-    }
+  data() {
+    return {}
   },
-  head () {
+  head() {
     const title =
       this.error.statusCode === 404 ? this.pageNotFound : this.otherError
     return {

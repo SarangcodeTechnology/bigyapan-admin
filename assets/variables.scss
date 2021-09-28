@@ -69,7 +69,7 @@ $bigyapan-white: #ffffff;
 @font-face {
   font-family: 'Koch';
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   font-display: swap;
   src: url('./assets/fonts/Koch Bold.ttf') format('truetype');
 }
@@ -80,7 +80,7 @@ $icon-size: 20px !important;
 $icon-size-dense: 16px !important;
 
 $body-font-family: 'Nunito', sans-serif !important;
-$heading-font-family: 'Koch', sans-serif;
+$heading-font-family: 'Roboto', sans-serif;
 
 $card-elevation: 5 !default;
 $card-hover-elevation: 6 !default;
