@@ -1,19 +1,56 @@
 const state = () => ({
-  accountTypes: [],
+  accountTypes: [
+    {
+      id: null,
+      title: null,
+      created_at: null,
+      updated_at: null
+    },
+  ],
   accountTypesPaginatedData: {
-    data: [],
+    data: [
+      {
+        id: null,
+        title: null,
+        created_at: null,
+        updated_at: null
+      },
+    ],
     pagination: {
-      total: null
+      total: null,
+      per_page: null,
+      current_page: null,
+      total_pages: null
     }
   },
-  accountType: null,
+  accountType: {
+    id: null,
+    title: null,
+    created_at: null,
+    updated_at: null
+  },
   isLoading: false,
   isCreating: false,
-  createdData: null,
+  createdData: {
+    id: null,
+    title: null,
+    created_at: null,
+    updated_at: null
+  },
   isUpdating: false,
-  updatedData: null,
+  updatedData: {
+    id: null,
+    title: null,
+    created_at: null,
+    updated_at: null
+  },
   isDeleting: false,
-  deletedData: null
+  deletedData: {
+    id: null,
+    title: null,
+    created_at: null,
+    updated_at: null
+  }
 });
 
 const mutations = {

@@ -13,7 +13,7 @@
     >
       <v-list
               nav>
-        <v-list-item-group active-class="primary">
+        <v-list-item-group>
           <v-tooltip v-for="(item, i) in items" :key="i" right>
             <template v-slot:activator="{ on, attrs }">
               <v-list-item
