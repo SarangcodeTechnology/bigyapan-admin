@@ -87,17 +87,19 @@ $card-hover-elevation: 6 !default;
 $toolbar-elevation: 0 !default;
 
 $material-light: (
-  'background': $bigyapan-black-lighten9,
-  'app-bar': $bigyapan-black-lighten9,
-  'cards': $bigyapan-primary-lighten9,
-  'toolbar': $bigyapan-primary-base,
+  'background': $bigyapan-primary-lighten9,
+  'app-bar': $bigyapan-primary-lighten7,
+  'cards': $bigyapan-white,
+  'toolbar': $bigyapan-primary-lighten8,
+  'navigation-drawer': $bigyapan-primary-lighten8 !important,
 );
 
 $material-dark: (
   'background': $bigyapan-primary-darken2,
-  'app-bar': $bigyapan-primary-darken2,
+  'app-bar': $bigyapan-primary-darken4,
   'cards':$bigyapan-primary-darken1,
-  'toolbar': $bigyapan-primary-base,
+  'toolbar': $bigyapan-primary-darken3,
+  'navigation-drawer': $bigyapan-primary-darken3 !important,
 );
 
 $headings: (

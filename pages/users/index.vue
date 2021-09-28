@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
-    <v-toolbar dark extended rounded>
+    <v-toolbar extended rounded>
       <v-toolbar-title><h1 class="display-1">Users</h1></v-toolbar-title>
       <v-spacer/>
       <v-btn
         class="d-flex align-self-center"
         text
-        to="/users/create">
+        :to="localePath('/users/create')">
         <v-icon left>fas fa-plus-circle</v-icon>
         <span>Add User</span></v-btn
       >
@@ -59,7 +59,7 @@
             </template>
             <template v-slot:item.actions="{ item }">
               <div class="d-flex justify-content-center align-items-center">
-                <v-btn :to=" `/users/edit/${item.id}` " fab icon x-small>
+                <v-btn :to=" localePath(`/users/edit/${item.id}`) " fab icon x-small>
                   <v-icon>fas fa-pencil-alt</v-icon>
                 </v-btn>
                 <v-btn color="error" fab icon x-small @click="confirm(item)">

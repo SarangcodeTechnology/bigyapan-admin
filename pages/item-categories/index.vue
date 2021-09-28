@@ -1,14 +1,14 @@
 <template>
   <v-container fluid>
     <v-toolbar extended rounded>
-      <v-toolbar-title><h1 class="display-1">Account Types</h1></v-toolbar-title>
+      <v-toolbar-title><h1 class="display-1">Item Categories</h1></v-toolbar-title>
       <v-spacer/>
       <v-btn
-        :to="localePath('/account-types/create')"
+        :to="localePath('/item-categories/create')"
         class="d-flex align-self-center"
         text>
         <v-icon left>fas fa-plus-circle</v-icon>
-        <span>Add Account Type</span></v-btn
+        <span>Add Item Category</span></v-btn
       >
     </v-toolbar>
     <v-card class="mx-4 mt-n10">
@@ -17,13 +17,13 @@
           <v-data-table
             :headers="headers"
             :hide-default-footer="true"
-            :items="accountTypesPaginatedData.data"
+            :items="itemCategoriesPaginatedData.data"
             :items-per-page="query.perPage"
             :loading="isLoading"
             :options.sync="options"
             :page="query.page"
-            :pageCount="accountTypesPaginatedData.pagination.total_pages"
-            :server-items-length="accountTypesPaginatedData.pagination.total"
+            :pageCount="itemCategoriesPaginatedData.pagination.total_pages"
+            :server-items-length="itemCategoriesPaginatedData.pagination.total"
             :sort-by.sync="query.sortBy"
             :sort-desc.sync="query.sortDesc"
             fixed-header
@@ -58,7 +58,7 @@
             </template>
             <template v-slot:item.actions="{ item }">
               <div class="d-flex justify-content-center align-items-center">
-                <v-btn :to=" localePath(`/account-types/edit/${item.id}`) " fab icon x-small>
+                <v-btn :to=" localePath(`/item-categories/edit/${item.id}`) " fab icon x-small>
                   <v-icon>fas fa-pencil-alt</v-icon>
                 </v-btn>
                 <v-btn color="error" fab icon x-small @click="confirm(item)">
@@ -93,7 +93,7 @@ export default {
     };
   },
   watch: {
-    //this one will populate new data set when accountType changes current page.
+    //this one will populate new data set when itemCategory changes current page.
     options: {
       handler(e) {
         this.query.page = e.page;
@@ -107,22 +107,22 @@ export default {
     this.getDataFromApi();
   },
   computed: {
-    ...mapGetters("accountType", [
-      "accountTypeList", "accountTypesPaginatedData", "isLoading", "isDeleting",
+    ...mapGetters("itemCategory", [
+      "itemCategoryList", "itemCategoriesPaginatedData", "isLoading", "isDeleting",
     ])
   },
   methods: {
-    ...mapActions("accountType", [
-      "fetchAllAccountTypes", "deleteAccountType"
+    ...mapActions("itemCategory", [
+      "fetchAllItemCategories", "deleteItemCategory"
     ]),
     getDataFromApi() {
-      this.fetchAllAccountTypes(this.query);
+      this.fetchAllItemCategories(this.query);
     },
     confirm(item) {
       const temp = this;
       this.$root.confirm('Confirm Delete', 'Are you sure you want to delete ' + item.title + '?', {color: 'red'}).then((confirm) => {
-        temp.deleteAccountType(item.id);
-        temp.fetchAllAccountTypes({
+        temp.deleteItemCategory(item.id);
+        temp.fetchAllItemCategories({
           page: 1,
           search: '',
           perPage: 10,

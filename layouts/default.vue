@@ -13,7 +13,7 @@
     >
       <v-list
               nav>
-        <v-list-item-group active-class="secondary">
+        <v-list-item-group active-class="primary">
           <v-tooltip v-for="(item, i) in items" :key="i" right>
             <template v-slot:activator="{ on, attrs }">
               <v-list-item
@@ -45,15 +45,13 @@
       :clipped-left="clipped"
       :rounded="!clipped?'lg':'0'"
       app
-      color="primary"
-      dark
       fixed
       flat
     >
       <div>
-        <v-img v-if="!miniVariant" alt="bigyapan_logo" contain src="/images/logo_bigyapan_white.svg"></v-img>
+        <v-img v-if="!miniVariant" alt="bigyapan_logo" contain src="/images/logo_bigyapan.svg"></v-img>
         <v-list-item-avatar v-else>
-          <v-img alt="bigyapan_logo" contain src="/images/logo_only_bigyapan_white.svg"></v-img>
+          <v-img alt="bigyapan_logo" contain src="/images/logo_only_bigyapan.svg"></v-img>
         </v-list-item-avatar>
       </div>
       <v-hover v-slot="{hover}">
@@ -98,7 +96,6 @@
           </v-tooltip>
         </v-sheet>
       </v-hover>
-
 
       <!--      Back Button-->
       <v-tooltip bottom>
@@ -209,8 +206,6 @@
     <v-navigation-drawer
       v-model="rightDrawer"
       :right="right"
-      color="secondary"
-      dark
       fixed
       temporary
     >
@@ -279,14 +274,16 @@
     "navigationMenuText": {
       "dashboard": "Dashboard",
       "users": "Users",
-      "accountTypes": "Account Types"
+      "accountTypes": "Account Types",
+      "itemCategories": "Item Categories"
     }
   },
   "np": {
     "navigationMenuText": {
       "dashboard": "ड्यासबाेर्ड",
       "users": "प्रयोगकर्ताहरु",
-      "accountTypes": "खाता प्रकारहरु"
+      "accountTypes": "खाता प्रकारहरु",
+      "itemCategories": "सामाग्री बर्गिकरणहरू"
     }
   }
 }
@@ -324,6 +321,11 @@ export default {
           icon: 'fas fa-id-card',
           title: "navigationMenuText.accountTypes",
           to: '/account-types'
+        },
+        {
+          icon: 'fas fa-sitemap',
+          title: "navigationMenuText.itemCategories",
+          to: '/item-categories'
         },
       ],
       miniVariant: false,
