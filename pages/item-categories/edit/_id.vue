@@ -77,7 +77,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("itemCategory", ["updateItemCategory", "updateItemCategoryInput", "fetchDetailItemCategory"]),
+    ...mapActions("itemCategory", ["updateItemCategory","fetchDetailItemCategory"]),
     onSave() {
       const {title} = this.itemCategory;
       this.updateItemCategory({

@@ -77,7 +77,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("accountType", ["updateAccountType", "updateAccountTypeInput", "fetchDetailAccountType"]),
+    ...mapActions("accountType", ["updateAccountType", "fetchDetailAccountType"]),
     onSave() {
       const {title} = this.accountType;
       this.updateAccountType({

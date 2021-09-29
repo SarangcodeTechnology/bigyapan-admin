@@ -300,7 +300,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("user", ["updateUser", "updateUserInput", "fetchDetailUser"]),
+    ...mapActions("user", ["updateUser", "fetchDetailUser"]),
     onSave() {
       const {name, email} = this.user;
       const {
@@ -334,10 +334,6 @@ export default {
           address_street: address_street
         }
       });
-    },
-    updateUserInputAction(e) {
-      console.log(e);
-      this.updateUserInput(e);
     },
     previewImage(file) {
       if (!file) {

@@ -33,12 +33,6 @@ const mutations = {
     state.usersPaginatedData.data.filter(x => x.id !== id);
   },
 
-  setUserDetailInput: (state, e) => {
-    let user = state.user;
-    user[e.target.name] = e.target.value;
-    state.user = user
-  },
-
   saveNewUsers: (state, user) => {
     state.users.unshift(user)
     state.createdData = user;
@@ -184,10 +178,6 @@ const actions = {
         state.commit('setUserIsDeleting', false);
       });
   },
-
-  updateUserInput(state, e) {
-    state.commit('setUserDetailInput', e);
-  }
 };
 
 const getters = {
