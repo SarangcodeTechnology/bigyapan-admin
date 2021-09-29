@@ -58,12 +58,6 @@ const mutations = {
     state.accountTypesPaginatedData.data.filter(x => x.id !== id);
   },
 
-  setAccountTypeDetailInput: (state, e) => {
-    let accountType = state.accountType;
-    accountType[e.target.name] = e.target.value;
-    state.accountType = accountType
-  },
-
   saveNewAccountTypes: (state, accountType) => {
     state.accountTypes.unshift(accountType)
     state.createdData = accountType;
@@ -209,10 +203,6 @@ const actions = {
         state.commit('setAccountTypeIsDeleting', false);
       });
   },
-
-  updateAccountTypeInput(state, e) {
-    state.commit('setAccountTypeDetailInput', e);
-  }
 };
 
 const getters = {

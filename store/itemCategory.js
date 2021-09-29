@@ -56,12 +56,6 @@ const mutations = {
     state.itemCategoriesPaginatedData.data.filter(x => x.id !== id);
   },
 
-  setItemCategoryDetailInput: (state, e) => {
-    let itemCategory = state.itemCategory;
-    itemCategory[e.target.name] = e.target.value;
-    state.itemCategory = itemCategory
-  },
-
   saveNewItemCategories: (state, itemCategory) => {
     state.itemCategories.unshift(itemCategory)
     state.createdData = itemCategory;
@@ -207,10 +201,6 @@ const actions = {
         state.commit('setItemCategoryIsDeleting', false);
       });
   },
-
-  updateItemCategoryInput(state, e) {
-    state.commit('setItemCategoryDetailInput', e);
-  }
 };
 
 const getters = {

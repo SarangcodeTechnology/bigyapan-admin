@@ -63,12 +63,6 @@ const mutations = {
     state.itemSubCategoriesPaginatedData.data.filter(x => x.id !== id);
   },
 
-  setItemSubCategoryDetailInput: (state, e) => {
-    let itemSubCategory = state.itemSubCategory;
-    itemSubCategory[e.target.name] = e.target.value;
-    state.itemSubCategory = itemSubCategory
-  },
-
   saveNewItemSubCategories: (state, itemSubCategory) => {
     state.itemSubCategories.unshift(itemSubCategory)
     state.createdData = itemSubCategory;
@@ -214,10 +208,6 @@ const actions = {
         state.commit('setItemSubCategoryIsDeleting', false);
       });
   },
-
-  updateItemSubCategoryInput(state, e) {
-    state.commit('setItemSubCategoryDetailInput', e);
-  }
 };
 
 const getters = {
