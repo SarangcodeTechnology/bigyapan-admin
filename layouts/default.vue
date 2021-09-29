@@ -276,7 +276,9 @@
       "users": "Users",
       "accountTypes": "Account Types",
       "itemCategories": "Item Categories",
-      "itemSubCategories": "Item Sub Categories"
+      "itemSubCategories": "Item Sub Categories",
+      "items": "Items"
+
     }
   },
   "np": {
@@ -285,7 +287,7 @@
       "users": "प्रयोगकर्ताहरु",
       "accountTypes": "खाता प्रकारहरु",
       "itemCategories": "सामाग्री बर्गिकरणहरू",
-      "itemSubCategories": "सामाग्रीका थप बर्गिकरणहरू "
+      "items": "सामाग्रीहरू"
     }
   }
 }
@@ -333,7 +335,13 @@ export default {
           icon: 'fas fa-sitemap',
           title: "navigationMenuText.itemSubCategories",
           to: '/item-sub-categories'
+        },
+        {
+          icon: 'fas fa-archive',
+          title: "navigationMenuText.items",
+          to: '/items'
         }
+
       ],
       miniVariant: false,
       right: true,
