@@ -3,7 +3,7 @@ const state = () => ({
     {
       id: null,
       item_category_id: null,
-      title: null,
+      title: "",
     }
   ],
   itemSubCategoriesPaginatedData: {
@@ -11,7 +11,7 @@ const state = () => ({
       {
         id: null,
         item_category_id: null,
-        title: null,
+        title: "",
       }
     ],
     pagination: {
@@ -24,25 +24,25 @@ const state = () => ({
   itemSubCategory: {
     id: null,
     item_category_id: null,
-    title: null,
+    title: "",
   },
   isLoading: false,
   isCreating: false,
   createdData: {
     id: null,
     item_category_id: null,
-    title: null,
+    title: "",
   },
   isUpdating: false,
   updatedData: {
     id: null,
     item_category_id: null,
-    title: null,
+    title: "",
   },
   isDeleting: false,
   deletedData: {
     id: null,
-    title: null,
+    title: "",
   }
 });
 

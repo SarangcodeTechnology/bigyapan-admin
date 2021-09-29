@@ -354,7 +354,7 @@ export default {
       reader.readAsDataURL(file);
     },
   },
-  created() {
+  mounted() {
     this.id = this.$route.params.id;
     this.fetchDetailUser(this.$route.params.id);
   }

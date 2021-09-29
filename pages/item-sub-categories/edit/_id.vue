@@ -56,7 +56,6 @@
         </v-col>
       </v-row>
     </v-form>
-
   </v-container>
 </template>
 
@@ -110,7 +109,7 @@ export default {
       });
     },
   },
-  created() {
+  mounted() {
     this.id = this.$route.params.id;
     this.fetchDetailItemSubCategory(this.$route.params.id);
   }

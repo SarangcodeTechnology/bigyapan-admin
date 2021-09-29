@@ -6,9 +6,9 @@
       <v-btn
         :to="localePath('/item-sub-categories/create')"
         class="d-flex align-self-center"
-        text>
+        color="primary" depressed>
         <v-icon left>fas fa-plus-circle</v-icon>
-        <span>Add Item Sub Category</span></v-btn
+        <span>Add</span></v-btn
       >
     </v-toolbar>
     <v-card class="mx-4 mt-n10">
@@ -66,6 +66,13 @@
                 </v-btn>
               </div>
             </template>
+            <template v-slot:item.item_category.title="{ item }">
+              <div class="d-flex justify-content-center align-items-center">
+                <v-chip>
+                  {{ item.item_category.title }}
+                </v-chip>
+              </div>
+            </template>
           </v-data-table>
         </client-only>
       </v-card-text>
@@ -89,6 +96,7 @@ export default {
       headers: [
         {text: "#", value: "actions", width: "1%"},
         {text: "Title", value: "title"},
+        {text: "Item Category", value: "item_category.title"},
       ],
     };
   },

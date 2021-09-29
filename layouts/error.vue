@@ -2,8 +2,8 @@
   <v-app>
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
-        <v-col cols="6">
-          <v-card shaped class="pa-6" elevation="0">
+        <v-col cols="5">
+          <v-card class="pa-6" dark elevation="0" shaped>
             <v-card-title><h1 class="display-4 font-weight-bold">
               OOPS !</h1>
             </v-card-title>
@@ -20,10 +20,9 @@
                 You can try going back or returning to the dashboard and continue from there.</p>
             </v-card-text>
             <v-card-actions>
-              <v-btn x-large color="primary" :to="localePath('/')">
-                To Dashboard
-                <v-icon right>fas fa-tachometer-alt</v-icon>
-
+              <v-btn :to="localePath('/')" depressed x-large>
+                <span>To Dashboard</span>
+                <v-icon right>fas fa-chevron-right</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>

@@ -6,9 +6,9 @@
       <v-btn
         :to="localePath('/account-types/create')"
         class="d-flex align-self-center"
-        text>
+        color="primary" depressed>
         <v-icon left>fas fa-plus-circle</v-icon>
-        <span>Add Account Type</span></v-btn
+        <span>Add</span></v-btn
       >
     </v-toolbar>
     <v-card class="mx-4 mt-n10">

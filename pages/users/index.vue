@@ -5,10 +5,10 @@
       <v-spacer/>
       <v-btn
         class="d-flex align-self-center"
-        text
+        color="primary" depressed
         :to="localePath('/users/create')">
         <v-icon left>fas fa-plus-circle</v-icon>
-        <span>Add User</span></v-btn
+        <span>Add</span></v-btn
       >
     </v-toolbar>
     <v-card class="mx-4 mt-n10">

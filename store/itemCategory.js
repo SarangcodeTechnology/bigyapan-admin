@@ -2,14 +2,14 @@ const state = () => ({
   itemCategories: [
     {
       id: null,
-      title: null,
+      title: "",
     }
   ],
   itemCategoriesPaginatedData: {
     data: [
       {
         id: null,
-        title: null,
+        title: "",
       }
     ],
     pagination: {
@@ -19,23 +19,23 @@ const state = () => ({
   },
   itemCategory: {
     id: null,
-    title: null,
+    title: "",
   },
   isLoading: false,
   isCreating: false,
   createdData: {
     id: null,
-    title: null,
+    title: "",
   },
   isUpdating: false,
   updatedData: {
     id: null,
-    title: null,
+    title: "",
   },
   isDeleting: false,
   deletedData: {
     id: null,
-    title: null,
+    title: "",
   }
 });
 

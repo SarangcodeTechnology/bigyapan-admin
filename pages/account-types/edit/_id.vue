@@ -86,7 +86,7 @@ export default {
       });
     },
   },
-  created() {
+  mounted() {
     this.id = this.$route.params.id;
     this.fetchDetailAccountType(this.$route.params.id);
   }
