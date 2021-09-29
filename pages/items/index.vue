@@ -85,8 +85,62 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from "vuex";
+
 export default {
-  name: "index"
+  name: "index",
+  data() {
+    return {
+      headers: [
+        {text: '#', value: 'actions'},
+        {text: 'Title', value: 'title'},
+        {text: 'User', value: 'user.name'},
+        {text: 'Item Category', value: 'item_category.title'},
+        {text: 'Item Sub Category', value: 'item_sub_category.title'},
+      ],
+      query: {
+        page: 1,
+        perPage: 10,
+        search: ""
+      },
+      options: {},
+    }
+  },
+  computed: {
+    ...mapGetters("item", ["itemsPaginatedData", "isLoading"])
+  },
+  methods: {
+    ...mapActions("item", ["fetchAllItems", "deleteItem"]),
+    getDataFromApi() {
+      this.fetchAllItems(this.query);
+    },
+    confirm(item) {
+      let temp = this;
+      this.$root.confirm('Confirm Delete', 'Are you sure you want to delete ' + item.name + '?', {color: 'red'}).then((confirm) => {
+        temp.deleteItem(item.id);
+        temp.fetchAllItems({
+          page: 1,
+          perPage: 10,
+          search: ''
+        });
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+  },
+  watch: {
+    options: {
+      handler(e) {
+        this.query.page = e.page;
+        this.query.perPage = e.itemsPerPage;
+        this.getDataFromApi();
+      },
+      deep: true,
+    }
+  },
+  created() {
+    this.getDataFromApi();
+  }
 }
 </script>
 
