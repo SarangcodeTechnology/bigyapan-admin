@@ -4,24 +4,20 @@
     <v-navigation-drawer
       v-model="drawer"
       :clipped="clipped"
-      :color="this.$vuetify.breakpoint.name !=='lg' && this.$vuetify.breakpoint.name !=='xl'?'primary':'transparent'"
-      :dark="this.$vuetify.breakpoint.name !=='lg' && this.$vuetify.breakpoint.name !=='xl'?true:false"
       :mini-variant="miniVariant"
       app
       fixed
-      floating
     >
-      <v-list
-              nav>
-        <v-list-item-group>
+      <v-list nav>
+        <v-list-item-group active-class="secondary darken-3">
           <v-tooltip v-for="(item, i) in items" :key="i" right>
             <template v-slot:activator="{ on, attrs }">
               <v-list-item
-                           :to="localePath(item.to)"
-                           exact
-                           router
-                           v-bind="attrs"
-                           v-on="on"
+                :to="localePath(item.to)"
+                exact
+                router
+                v-bind="attrs"
+                v-on="on"
               >
                 <v-list-item-action>
                   <v-icon>{{ item.icon }}</v-icon>
@@ -34,8 +30,6 @@
             <span>{{ $t(item.title) }}</span>
           </v-tooltip>
         </v-list-item-group>
-
-
       </v-list>
     </v-navigation-drawer>
 
@@ -45,17 +39,12 @@
       :clipped-left="clipped"
       :rounded="!clipped?'lg':'0'"
       app
+      dark
       fixed
-      flat
+      elevation="2"
     >
-      <div>
-        <v-img v-if="!miniVariant" alt="bigyapan_logo" contain src="/images/logo_bigyapan.svg"></v-img>
-        <v-list-item-avatar v-else>
-          <v-img alt="bigyapan_logo" contain src="/images/logo_only_bigyapan.svg"></v-img>
-        </v-list-item-avatar>
-      </div>
       <v-hover v-slot="{hover}">
-        <v-sheet class="ml-2" fluid rounded="pill">
+        <v-sheet color="transparent" fluid rounded="pill">
 
           <!--      Hide Drawer Button-->
           <v-tooltip bottom>
@@ -97,50 +86,58 @@
         </v-sheet>
       </v-hover>
 
-      <!--      Back Button-->
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            @click="goBack"
-            v-on="on"
-          >
-            <v-icon>fas fa-arrow-left</v-icon>
-          </v-btn>
-        </template>
-        <span>Back</span>
-      </v-tooltip>
+      <div class="ml-2">
+        <v-img v-if="!miniVariant" alt="bigyapan_logo" contain src="/images/logo_bigyapan.svg"></v-img>
+        <v-list-item-avatar v-else>
+          <v-img alt="bigyapan_logo" contain src="/images/logo_only_bigyapan.svg"></v-img>
+        </v-list-item-avatar>
+      </div>
 
-      <!--      Forward Button-->
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            @click="goForward"
-            v-on="on"
-          >
-            <v-icon>fas fa-arrow-right</v-icon>
-          </v-btn>
-        </template>
-        <span>Forward</span>
-      </v-tooltip>
 
-      <!--      Refresh Button-->
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            @click="refresh"
-            v-on="on"
-          >
-            <v-icon>fas fa-redo</v-icon>
-          </v-btn>
-        </template>
-        <span>Refresh</span>
-      </v-tooltip>
+      <!--      &lt;!&ndash;      Back Button&ndash;&gt;-->
+      <!--      <v-tooltip bottom>-->
+      <!--        <template v-slot:activator="{ on, attrs }">-->
+      <!--          <v-btn-->
+      <!--            icon-->
+      <!--            v-bind="attrs"-->
+      <!--            @click="goBack"-->
+      <!--            v-on="on"-->
+      <!--          >-->
+      <!--            <v-icon>fas fa-arrow-left</v-icon>-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--        <span>Back</span>-->
+      <!--      </v-tooltip>-->
+
+      <!--      &lt;!&ndash;      Forward Button&ndash;&gt;-->
+      <!--      <v-tooltip bottom>-->
+      <!--        <template v-slot:activator="{ on, attrs }">-->
+      <!--          <v-btn-->
+      <!--            icon-->
+      <!--            v-bind="attrs"-->
+      <!--            @click="goForward"-->
+      <!--            v-on="on"-->
+      <!--          >-->
+      <!--            <v-icon>fas fa-arrow-right</v-icon>-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--        <span>Forward</span>-->
+      <!--      </v-tooltip>-->
+
+      <!--      &lt;!&ndash;      Refresh Button&ndash;&gt;-->
+      <!--      <v-tooltip bottom>-->
+      <!--        <template v-slot:activator="{ on, attrs }">-->
+      <!--          <v-btn-->
+      <!--            icon-->
+      <!--            v-bind="attrs"-->
+      <!--            @click="refresh"-->
+      <!--            v-on="on"-->
+      <!--          >-->
+      <!--            <v-icon>fas fa-redo</v-icon>-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--        <span>Refresh</span>-->
+      <!--      </v-tooltip>-->
       <v-spacer/>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -150,19 +147,6 @@
           </v-btn>
         </template>
         <span>Sync Resources</span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-            @click.stop="rightDrawer = !rightDrawer"
-          >
-            <v-icon>fas fa-cogs</v-icon>
-          </v-btn>
-        </template>
-        <span>Tools</span>
       </v-tooltip>
       <v-menu v-model="userMenuModal" :close-on-content-click="false" offset-overflow offset-y
               origin="center center"
@@ -192,6 +176,20 @@
           </v-list>
         </v-container>
       </v-menu>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            @click.stop="rightDrawer = !rightDrawer"
+          >
+            <v-icon>fas fa-ellipsis-h</v-icon>
+          </v-btn>
+        </template>
+        <span>More</span>
+      </v-tooltip>
+
     </v-app-bar>
 
     <!-- Admin Panel Body Container -->
@@ -230,6 +228,8 @@
           <v-list-item-title>Locale
           </v-list-item-title>
           <v-autocomplete
+            filled
+            dense
             v-model="locale"
             :items="availableLocales"
             item-text="name"
@@ -237,9 +237,8 @@
             return-object
             @input="changeLocale">
           </v-autocomplete>
-
-
         </v-list-item>
+        <v-divider></v-divider>
         <v-list-item :to="localePath('/settings')">
           <v-list-item-action>
             <v-icon>
@@ -278,7 +277,6 @@
       "itemCategories": "Item Categories",
       "itemSubCategories": "Item Sub Categories",
       "items": "Items"
-
     }
   },
   "np": {
@@ -287,6 +285,7 @@
       "users": "प्रयोगकर्ताहरु",
       "accountTypes": "खाता प्रकारहरु",
       "itemCategories": "सामाग्री बर्गिकरणहरू",
+      "itemSubCategories": "सामाग्री थप बर्गिकरणहरू",
       "items": "सामाग्रीहरू"
     }
   }
@@ -444,4 +443,7 @@ export default {
   background-color: #9e9e9e;
 }
 
+.v-list-item-group .v-list-item--active {
+  color: white !important;
+}
 </style>

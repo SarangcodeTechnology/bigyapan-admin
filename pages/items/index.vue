@@ -1,11 +1,11 @@
 <template>
-  <v-container>
-    <v-toolbar extended rounded>
+  <v-container fluid>
+    <v-toolbar dark extended rounded>
       <v-toolbar-title><h1 class="display-1">Items</h1></v-toolbar-title>
       <v-spacer/>
       <v-btn
         class="d-flex align-self-center"
-        color="primary" depressed
+        color="secondary darken-3" depressed
         :to="localePath('/items/create')">
         <v-icon left>fas fa-plus-circle</v-icon>
         <span>Add</span></v-btn
