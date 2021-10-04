@@ -1,5 +1,10 @@
 const state = () => ({
-  resources: [],
+  resources: {
+    accountTypes: [],
+    addresses: [],
+    itemCategories: [],
+    users: [],
+  },
   isSyncingResources: false,
 });
 
@@ -93,6 +98,9 @@ const getters =
   {
     countries: function (state) {
       return state.resources.addresses;
+    },
+    itemCategories: function (state) {
+      return state.resources.itemCategories;
     },
     isSyncingResources: state => state.isSyncingResources,
   };

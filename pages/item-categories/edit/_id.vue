@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import {validationMixin} from "vuelidate";
+import
+{validationMixin} from "vuelidate";
 import {required} from "vuelidate/lib/validators";
 import {mapActions, mapGetters, mapState} from "vuex";
 

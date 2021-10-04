@@ -38,7 +38,7 @@
                   <v-autocomplete
                     v-model="item.item_category_id"
                     :error-messages="itemCategoryErrors"
-                    :items="resources.itemCategories"
+                    :items="itemCategories"
                     autofocus
                     filled
                     item-text="title"
@@ -50,6 +50,71 @@
                     @input="$v.item.item_category_id.$touch()"
                   ></v-autocomplete>
                 </v-col>
+                <v-col cols="6">
+                  <v-autocomplete
+                    v-model="item.item_sub_category_id"
+                    :error-messages="itemSubCategoryErrors"
+                    :items="itemSubCategories"
+                    autofocus
+                    filled
+                    item-text="title"
+                    item-value="id"
+                    label="Items Sub Category"
+                    name="item_sub_category_id"
+                    placeholder="Select item sub category..."
+                    @blur="$v.item.item_sub_category_id.$touch()"
+                    @input="$v.item.item_sub_category_id.$touch()"
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                    v-model="item.item_name"
+                    :error-messages="itemNameErrors"
+                    autocomplete="on"
+                    autofocus
+                    filled
+                    label="Item Name"
+                    name="item_name"
+                    placeholder="Enter item title here..."
+                    prepend-inner-icon="fas fa-heading"
+                    @blur="$v.item.item_name.$touch()"
+                    @input="$v.item.item_name.$touch()"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+
+                    v-model="item.item_price"
+                    :error-messages="itemPriceErrors"
+                    autocomplete="on"
+                    autofocus
+                    filled
+                    label="Item Price"
+                    name="item_price"
+                    placeholder="Enter item price here..."
+                    prepend-inner-icon="fas fa-heading"
+                    @blur="$v.item.item_price.$touch()"
+                    @input="$v.item.item_price.$touch()"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="6">
+                  <v-checkbox
+                    v-model="item.item_price_negotiable"
+                    label="Price Negotiable"
+                  ></v-checkbox>
+                </v-col>
+
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="item.item_description"
+                    filled
+                    label="Item Description"
+                    name="item_description"
+                    placeholder="Enter item description here..."
+
+                  ></v-textarea>
+                </v-col>
+
               </v-row>
             </v-card-text>
           </v-card>
@@ -61,8 +126,8 @@
 </template>
 
 <script>
-import {required} from "vuelidate/lib/validators";
-import {mapState} from "vuex";
+import {required, decimal} from "vuelidate/lib/validators";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {validationMixin} from "vuelidate";
 
 export default {
@@ -71,27 +136,67 @@ export default {
   data() {
     return {
       valid: false,
-      item: {}
+      item: {
+        user_id: null,
+        item_category_id: null,
+        item_sub_category_id: null,
+        item_name: null,
+        item_price: null,
+        item_price_negotiable: false,
+        item_description: null,
+      }
     }
   },
   validations: {
     item: {
       user_id: {required},
       item_category_id: {required},
-      item_subcategory_id: {required},
+      item_sub_category_id: {required},
       item_name: {required},
-      item_price: {required},
+      item_price: {required, decimal},
     }
   },
   methods: {
+    ...mapActions("item", ["storeItem"]),
     onSave() {
-
+      const {
+        user_id,
+        item_category_id,
+        item_sub_category_id,
+        item_name,
+        item_price,
+        item_price_negotiable,
+        item_description
+      } = this.item;
+      this.storeItem(
+        {
+          user_id: user_id,
+          item_category_id: item_category_id,
+          item_sub_category_id: item_sub_category_id,
+          item_name: item_name,
+          item_price: item_price,
+          item_price_negotiable: item_price_negotiable,
+          item_description: item_description,
+        }
+      );
     }
   },
   computed: {
+    ...mapGetters("webservice", ["itemCategories"]),
+    ...mapGetters("item", ["isCreating", "createdData"]),
     ...mapState({
       resources: (state) => state.webservice.resources,
     }),
+    itemSubCategories: function () {
+      const temp = this;
+      let data = [];
+      this.itemCategories.forEach(function (itemCategory) {
+        if (itemCategory.id === temp.item.item_category_id) {
+          data = itemCategory.item_sub_categories;
+        }
+      });
+      return data;
+    },
     userErrors() {
       const errors = [];
       if (!this.$v.item.user_id.$dirty) return errors;
@@ -106,8 +211,8 @@ export default {
     },
     itemSubCategoryErrors() {
       const errors = [];
-      if (!this.$v.item.item_subcategory_id.$dirty) return errors;
-      !this.$v.item.item_subcategory_id.required && errors.push('Item sub category is required.');
+      if (!this.$v.item.item_sub_category_id.$dirty) return errors;
+      !this.$v.item.item_sub_category_id.required && errors.push('Item sub category is required.');
       return errors;
     },
     itemNameErrors() {
@@ -120,6 +225,7 @@ export default {
       const errors = [];
       if (!this.$v.item.item_price.$dirty) return errors;
       !this.$v.item.item_price.required && errors.push('Item price is required.');
+      !this.$v.item.item_price.decimal && errors.push('Item price must be numeric.');
       return errors;
     }
   }

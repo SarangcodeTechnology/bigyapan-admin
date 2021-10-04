@@ -15,6 +15,8 @@ const state = () => ({
     pagination: {
       total: null,
       per_page: null,
+      current_page: null,
+      total_pages: null,
     }
   },
   itemCategory: {
@@ -167,7 +169,6 @@ const actions = {
   },
 
   async updateItemCategory(state, itemCategory) {
-    state.commit('setItemCategoryIsUpdating', true);
     state.commit('setItemCategoryIsUpdating', true);
     await this.$axios.post(`${process.env.BACKEND_API_URL}item-categories/${itemCategory.id}?_method=PUT`, itemCategory, {
       headers: {
