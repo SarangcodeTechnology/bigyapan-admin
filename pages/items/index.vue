@@ -93,7 +93,7 @@ export default {
     return {
       headers: [
         {text: '#', value: 'actions'},
-        {text: 'Title', value: 'title'},
+        {text: 'Name', value: 'item_name'},
         {text: 'User', value: 'user.name'},
         {text: 'Item Category', value: 'item_category.title'},
         {text: 'Item Sub Category', value: 'item_sub_category.title'},
