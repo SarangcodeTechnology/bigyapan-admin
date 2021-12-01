@@ -145,27 +145,32 @@ const mutations = {
 };
 
 const actions = {
-  async fetchDetailItem(state, id) {
-    state.commit('setItemIsLoading', true);
-    await this.$axios.get(`${process.env.BACKEND_API_URL}items/${id}`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
-      }
-    })
-      .then(res => {
+  fetchDetailItem(state, id) {
+    return new Promise(((resolve, reject) => {
+      state.commit('setItemIsLoading', true);
+      this.$axios.get(`${process.env.BACKEND_API_URL}items/${id}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
+        }
+      }).then(res => {
         state.commit('setItemDetail', res.data.data);
         state.commit('setItemIsLoading', false);
+        resolve(res);
       }).catch(err => {
         console.log('error', err);
         state.commit('setItemIsLoading', false);
+        reject(err);
       });
+    }))
+
   },
-  async updateItem(state, item) {
+  async updateItem(state, payload) {
     state.commit('setItemIsUpdating', true);
-    await this.$axios.post(`${process.env.BACKEND_API_URL}items/${item.id}?_method=PUT`, item, {
+    await this.$axios.post(`${process.env.BACKEND_API_URL}items/${payload.id}?_method=PUT`, payload.formData, {
       headers: {
         Accept: 'application/json',
+        "Content-Types": "multipart/form-data",
         Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
       }
     }).then(res => {
@@ -182,6 +187,7 @@ const actions = {
       `${process.env.BACKEND_API_URL}items`, item, {
         headers: {
           Accept: "application/json",
+          "Content-Types": "multipart/form-data",
           Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
         }
       }
@@ -223,7 +229,6 @@ const actions = {
     })
       .then(res => {
         const items = res.data.data;
-        console.log(items);
         state.commit('setItems', items);
         const pagination = {
           total: res.data.data.total,  // total number of elements or items

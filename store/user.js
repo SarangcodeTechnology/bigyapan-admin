@@ -1,19 +1,160 @@
 const state = () => ({
-  users: [],
+  users: [{
+    "id": null,
+    "name": null,
+    "email": null,
+    "user_details": {
+      "id": null,
+      "user_id": null,
+      "account_type_id": null,
+      "address_street": null,
+      "address_ward": null,
+      "address_municipality_id": null,
+      "address_district_id": null,
+      "address_province_id": null,
+      "address_country_id": null,
+      "user_image": null,
+      "phone_number": null,
+      "user_description": null,
+      "account_type": null,
+      "address_municipality": null,
+      "address_district": null,
+      "address_province": null,
+      "address_country": null
+    }
+  }],
   usersPaginatedData: {
-    data: [],
+    data: [{
+      "id": null,
+      "name": null,
+      "email": null,
+      "user_details": {
+        "id": null,
+        "user_id": null,
+        "account_type_id": null,
+        "address_street": null,
+        "address_ward": null,
+        "address_municipality_id": null,
+        "address_district_id": null,
+        "address_province_id": null,
+        "address_country_id": null,
+        "user_image": null,
+        "phone_number": null,
+        "user_description": null,
+        "account_type": null,
+        "address_municipality": null,
+        "address_district": null,
+        "address_province": null,
+        "address_country": null
+      }
+    }],
     pagination: {
-      total: null
+      total: null,
+      per_page: null,
+      current_page: null,
+      total_pages: null,
     }
   },
-  user: null,
+  user: {
+    "id": null,
+    "name": null,
+    "email": null,
+    "user_details": {
+      "id": null,
+      "user_id": null,
+      "account_type_id": null,
+      "address_street": null,
+      "address_ward": null,
+      "address_municipality_id": null,
+      "address_district_id": null,
+      "address_province_id": null,
+      "address_country_id": null,
+      "user_image": null,
+      "phone_number": null,
+      "user_description": null,
+      "account_type": null,
+      "address_municipality": null,
+      "address_district": null,
+      "address_province": null,
+      "address_country": null
+    }
+  },
   isLoading: false,
   isCreating: false,
-  createdData: null,
+  createdData: {
+    "id": null,
+    "name": null,
+    "email": null,
+    "user_details": {
+      "id": null,
+      "user_id": null,
+      "account_type_id": null,
+      "address_street": null,
+      "address_ward": null,
+      "address_municipality_id": null,
+      "address_district_id": null,
+      "address_province_id": null,
+      "address_country_id": null,
+      "user_image": null,
+      "phone_number": null,
+      "user_description": null,
+      "account_type": null,
+      "address_municipality": null,
+      "address_district": null,
+      "address_province": null,
+      "address_country": null
+    }
+  },
   isUpdating: false,
-  updatedData: null,
+  updatedData: {
+    "id": null,
+    "name": null,
+    "email": null,
+    "user_details": {
+      "id": null,
+      "user_id": null,
+      "account_type_id": null,
+      "address_street": null,
+      "address_ward": null,
+      "address_municipality_id": null,
+      "address_district_id": null,
+      "address_province_id": null,
+      "address_country_id": null,
+      "user_image": null,
+      "phone_number": null,
+      "user_description": null,
+      "account_type": null,
+      "address_municipality": null,
+      "address_district": null,
+      "address_province": null,
+      "address_country": null
+    }
+  },
   isDeleting: false,
-  deletedData: null
+  deletedData: {
+    "id": null,
+    "name": null,
+    "email": null,
+    "user_details": {
+      "id": null,
+      "user_id": null,
+      "account_type_id": null,
+      "address_street": null,
+      "address_ward": null,
+      "address_municipality_id": null,
+      "address_district_id": null,
+      "address_province_id": null,
+      "address_country_id": null,
+      "user_image": null,
+      "phone_number": null,
+      "user_description": null,
+      "account_type": null,
+      "address_municipality": null,
+      "address_district": null,
+      "address_province": null,
+      "address_country": null
+    }
+  }
 });
 
 const mutations = {
@@ -131,6 +272,7 @@ const actions = {
     await this.$axios.post(`${process.env.BACKEND_API_URL}users`, user, {
       headers: {
         Accept: "application/json",
+        "Content-Types": "multipart/form-data",
         Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
       }
     })
@@ -143,12 +285,14 @@ const actions = {
       });
   },
 
-  async updateUser(state, user) {
+  async updateUser(state, payload) {
     state.commit('setUserIsUpdating', true);
     state.commit('setUserIsUpdating', true);
-    await this.$axios.post(`${process.env.BACKEND_API_URL}users/${user.id}?_method=PUT`, user, {
+    console.log(payload);
+    await this.$axios.post(`${process.env.BACKEND_API_URL}users/${payload.id}?_method=PUT`, payload.formData, {
       headers: {
         Accept: "application/json",
+        "Content-Types": "multipart/form-data",
         Authorization: "Bearer " + state.rootGetters['auth/GET_ACCESS_TOKEN']
       }
     })

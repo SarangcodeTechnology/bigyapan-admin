@@ -23,8 +23,8 @@
               <v-row>
                 <v-col cols="6">
                   <v-text-field
-                    :error-messages="nameErrors"
                     v-model="user.name"
+                    :error-messages="nameErrors"
                     autocomplete="on"
                     autofocus
                     filled
@@ -38,8 +38,8 @@
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
-                    :error-messages="emailErrors"
                     v-model="user.email"
+                    :error-messages="emailErrors"
                     autocomplete="on"
                     autofocus
                     filled
@@ -53,13 +53,13 @@
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
-                    :error-messages="phoneNumberErrors"
                     v-model="user.user_details.phone_number"
-                    name="user_details.phone_number"
+                    :error-messages="phoneNumberErrors"
                     autocomplete="on"
                     autofocus
                     filled
                     label="Phone Number"
+                    name="user_details.phone_number"
                     placeholder="Enter your phone number here..."
                     prepend-inner-icon="fas fa-phone"
                     @blur="$v.user.user_details.phone_number.$touch()"
@@ -68,15 +68,15 @@
                 </v-col>
                 <v-col cols="6">
                   <v-autocomplete
+                    v-model="user.user_details.account_type_id"
                     :error-messages="accountTypeErrors"
                     :items="resources.accountTypes"
-                    v-model="user.user_details.account_type_id"
-                    name="user_details.account_type_id"
                     autofocus
                     filled
                     item-text="title"
                     item-value="id"
                     label="Account Type"
+                    name="user_details.account_type_id"
                     placeholder="Select your account type..."
                     prepend-inner-icon="fas fa-user-circle"
                     @blur="$v.user.user_details.account_type_id.$touch()"
@@ -105,12 +105,12 @@
 
             <v-card-text>
               <v-file-input v-model="user.user_details.user_image" filled
-                            label="User Image" placeholder="Please upload your image..."
+                            label="User Image" name="user_details.user_image"
+                            placeholder="Please upload your image..."
                             prepend-icon=""
-                            user_details.user_description
-                            name="user_details.user_image"
-                            prepend-inner-icon="fas fa-camera" @change="previewImage"
-                            ></v-file-input>
+                            prepend-inner-icon="fas fa-camera"
+                            user_details.user_description @change="previewImage"
+              ></v-file-input>
               <v-container fill-height>
                 <v-row align="center" justify="center">
                   <v-avatar class="my-2" size="150px">
@@ -131,52 +131,52 @@
               <v-row>
                 <v-col cols="4">
                   <v-autocomplete
-                    :items="countries"
                     v-model="user.user_details.address_country_id"
+                    :items="countries"
                     filled
                     item-text="title"
                     item-value="id"
                     label="Country"
-                    placeholder="Select your country..."
                     name="user_details.address_country_id"
+                    placeholder="Select your country..."
 
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="4">
                   <v-autocomplete
-                    :items="provinces"
                     v-model="user.user_details.address_province_id"
-                    name="user_details.address_province_id"
+                    :items="provinces"
                     filled
                     item-text="title"
                     item-value="id"
                     label="Province"
+                    name="user_details.address_province_id"
                     placeholder="Select your province..."
 
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="4">
                   <v-autocomplete
-                    :items="districts"
                     v-model="user.user_details.address_district_id"
-                    name="user_details.address_district_id"
+                    :items="districts"
                     filled
                     item-text="title"
                     item-value="id"
                     label="District"
+                    name="user_details.address_district_id"
                     placeholder="Select your district..."
 
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="4">
                   <v-autocomplete
-                    :items="municipals"
                     v-model="user.user_details.address_municipality_id"
-                    name="user_details.address_municipality_id"
+                    :items="municipals"
                     filled
                     item-text="title"
                     item-value="id"
                     label="Municipality"
+                    name="user_details.address_municipality_id"
                     placeholder="Select your municipality..."
 
                   ></v-autocomplete>
@@ -184,9 +184,9 @@
                 <v-col cols="4">
                   <v-text-field
                     v-model="user.user_details.address_ward"
-                    name="user_details.address_ward"
                     filled
                     label="Ward No."
+                    name="user_details.address_ward"
                     placeholder="Enter your ward here..."
 
                   ></v-text-field>
@@ -194,9 +194,9 @@
                 <v-col cols="4">
                   <v-text-field
                     v-model="user.user_details.address_street"
-                    name="user_details.address_street"
                     filled
                     label="Street"
+                    name="user_details.address_street"
                     placeholder="Enter your street here..."
 
                   ></v-text-field>
@@ -316,7 +316,10 @@ export default {
         address_ward,
         address_street
       } = this.user.user_details;
-      this.updateUser({
+
+      let formData = new FormData();
+
+      formData.append("user", JSON.stringify({
         id: this.id,
         name: name,
         email: email,
@@ -333,7 +336,31 @@ export default {
           address_ward: address_ward,
           address_street: address_street
         }
+      }));
+      formData.append("user_image", this.user.user_details.user_image);
+      this.updateUser({
+        formData: formData,
+        id:this.user.id,
       });
+
+      // this.updateUser({
+      //   id: this.id,
+      //   name: name,
+      //   email: email,
+      //   user_details: {
+      //     id: id,
+      //     phone_number: phone_number,
+      //     account_type_id: account_type_id,
+      //     user_description: user_description,
+      //     user_image: user_image,
+      //     address_country_id: address_country_id,
+      //     address_province_id: address_province_id,
+      //     address_district_id: address_district_id,
+      //     address_municipality_id: address_municipality_id,
+      //     address_ward: address_ward,
+      //     address_street: address_street
+      //   }
+      // });
     },
     previewImage(file) {
       if (!file) {
@@ -351,8 +378,12 @@ export default {
     },
   },
   mounted() {
+    let temp = this;
     this.id = this.$route.params.id;
-    this.fetchDetailUser(this.$route.params.id);
+    this.fetchDetailUser(this.$route.params.id).then(function (response) {
+      temp.previewImageUrl = process.env.BACKEND_BASE_URL + 'storage/images/user-images/' + temp.user.user_details.user_image;
+    });
+
   }
 
 }

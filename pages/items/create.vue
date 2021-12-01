@@ -104,7 +104,7 @@
                   ></v-checkbox>
                 </v-col>
 
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-textarea
                     v-model="item.item_description"
                     filled
@@ -113,6 +113,24 @@
                     placeholder="Enter item description here..."
 
                   ></v-textarea>
+                </v-col>
+                <v-col cols="6">
+                  <v-file-input v-model="item.item_images" filled
+                                label="Item Images"
+                                multiple name="item.item_images"
+                                placeholder="Please upload the item images..."
+                                prepend-icon=""
+                                prepend-inner-icon="fas fa-camera" @change="previewImage"
+                  ></v-file-input>
+                  <v-container fill-height>
+                    <v-row align="center" justify="center">
+                      <template v-for="previewImage in previewImageUrl">
+                        <v-img :aspect-ratio="1/1"
+                               :src="previewImage?previewImage :'/images/user_image_placeholder.png'"></v-img>
+                      </template>
+
+                    </v-row>
+                  </v-container>
                 </v-col>
 
               </v-row>
@@ -126,7 +144,7 @@
 </template>
 
 <script>
-import {required, decimal} from "vuelidate/lib/validators";
+import {decimal, required} from "vuelidate/lib/validators";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {validationMixin} from "vuelidate";
 
@@ -144,7 +162,9 @@ export default {
         item_price: null,
         item_price_negotiable: false,
         item_description: null,
-      }
+        item_images: [],
+      },
+      previewImageUrl: [],
     }
   },
   validations: {
@@ -168,17 +188,63 @@ export default {
         item_price_negotiable,
         item_description
       } = this.item;
-      this.storeItem(
-        {
-          user_id: user_id,
-          item_category_id: item_category_id,
-          item_sub_category_id: item_sub_category_id,
-          item_name: item_name,
-          item_price: item_price,
-          item_price_negotiable: item_price_negotiable,
-          item_description: item_description,
-        }
-      );
+      let formData = new FormData();
+      formData.append("item", JSON.stringify({
+        user_id: user_id,
+        item_category_id: item_category_id,
+        item_sub_category_id: item_sub_category_id,
+        item_name: item_name,
+        item_price: item_price,
+        item_price_negotiable: item_price_negotiable,
+        item_description: item_description,
+      }));
+      var temp=this;
+      for( var i = 0; i < temp.item.item_images.length; i++ ){
+        let file = temp.item.item_images[i];
+        formData.append('item_images[' + i + ']', file);
+      }
+
+
+      // formData.append("item_images[]", this.item.item_images);
+      this.storeItem(formData);
+      // this.storeItem(
+      //   {
+      //     user_id: user_id,
+      //     item_category_id: item_category_id,
+      //     item_sub_category_id: item_sub_category_id,
+      //     item_name: item_name,
+      //     item_price: item_price,
+      //     item_price_negotiable: item_price_negotiable,
+      //     item_description: item_description,
+      //   }
+      // );
+    },
+    previewImage(files) {
+      let temp = this;
+      if (!files) {
+        temp.previewImageUrl = null;
+        return;
+      }
+      temp.createImage(files);
+    },
+    createImage(files) {
+      this.files = [];
+      var tempPreviewImageUrl = [];
+      const test = files.forEach((file, idx) => {
+        const fileReader = new FileReader();
+        const getResult = new Promise(resolve => {
+          fileReader.onload = e => {
+            tempPreviewImageUrl.push(
+              e.target.result
+            );
+          };
+        });
+        fileReader.readAsDataURL(file);
+        return getResult.then(file => {
+          return file;
+        });
+      });
+      this.previewImageUrl = tempPreviewImageUrl;
     }
   },
   computed: {

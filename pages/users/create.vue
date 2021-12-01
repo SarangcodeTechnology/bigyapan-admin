@@ -53,36 +53,36 @@
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
-                    :error-messages="passwordErrors"
                     v-model="user.password"
                     :append-icon="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"
+                    :error-messages="passwordErrors"
                     :type="showPassword ? 'text' : 'password'"
-                    @click:append="showPassword = !showPassword"
                     autocomplete="on"
-                    color="#2E897B"
-                    label="Password"
-                    filled
-                    placeholder="Enter password"
-                    @input="$v.user.password.$touch()"
-                    @blur="$v.user.password.$touch()"
                     autofocus
+                    color="#2E897B"
+                    filled
+                    label="Password"
+                    placeholder="Enter password"
+                    @blur="$v.user.password.$touch()"
+                    @input="$v.user.password.$touch()"
+                    @click:append="showPassword = !showPassword"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
-                    autofocus
-                    :error-messages="confirmPasswordErrors"
                     v-model="user.password_confirmation"
                     :append-icon="showConfirmPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"
+                    :error-messages="confirmPasswordErrors"
                     :type="showConfirmPassword ? 'text' : 'password'"
-                    @click:append="showConfirmPassword = !showConfirmPassword"
                     autocomplete="on"
+                    autofocus
                     color="#2E897B"
-                    label="Confirm Password"
                     filled
+                    label="Confirm Password"
                     placeholder="Enter confirm password..."
-                    @input="$v.user.password_confirmation.$touch()"
                     @blur="$v.user.password_confirmation.$touch()"
+                    @input="$v.user.password_confirmation.$touch()"
+                    @click:append="showConfirmPassword = !showConfirmPassword"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
@@ -247,7 +247,7 @@
 
 <script>
 import {validationMixin} from "vuelidate";
-import {email, required,sameAs,minLength} from "vuelidate/lib/validators";
+import {email, minLength, required, sameAs} from "vuelidate/lib/validators";
 import {mapActions, mapGetters, mapState} from "vuex";
 
 
@@ -258,8 +258,8 @@ export default {
     return {
       valid: false,
       previewImageUrl: "",
-      showPassword:false,
-      showConfirmPassword:false,
+      showPassword: false,
+      showConfirmPassword: false,
       user: {
         user_details: {}
       }
@@ -356,13 +356,12 @@ export default {
   methods: {
     ...mapActions("user", ["storeUser"]),
     onSave() {
-      const {name, email,password,password_confirmation} = this.user;
+      const {name, email, password, password_confirmation} = this.user;
       const {
         id,
         phone_number,
         account_type_id,
         user_description,
-        user_image,
         address_country_id,
         address_province_id,
         address_district_id,
@@ -370,16 +369,18 @@ export default {
         address_ward,
         address_street
       } = this.user.user_details;
-      this.storeUser({
+
+      let formData = new FormData();
+
+      formData.append("user", JSON.stringify({
         name: name,
         email: email,
-        password:password,
-        password_confirmation:password_confirmation,
+        password: password,
+        password_confirmation: password_confirmation,
         user_details: {
           phone_number: phone_number,
           account_type_id: account_type_id,
           user_description: user_description,
-          user_image: user_image,
           address_country_id: address_country_id,
           address_province_id: address_province_id,
           address_district_id: address_district_id,
@@ -387,7 +388,27 @@ export default {
           address_ward: address_ward,
           address_street: address_street
         }
-      });
+      }));
+      formData.append("user_image", this.user.user_details.user_image);
+      this.storeUser(formData);
+      // this.storeUser({
+      //   name: name,
+      //   email: email,
+      //   password:password,
+      //   password_confirmation:password_confirmation,
+      //   user_details: {
+      //     phone_number: phone_number,
+      //     account_type_id: account_type_id,
+      //     user_description: user_description,
+      //     user_image: user_image,
+      //     address_country_id: address_country_id,
+      //     address_province_id: address_province_id,
+      //     address_district_id: address_district_id,
+      //     address_municipality_id: address_municipality_id,
+      //     address_ward: address_ward,
+      //     address_street: address_street
+      //   }
+      // });
     },
     previewImage(file) {
       if (!file) {
@@ -395,14 +416,16 @@ export default {
         return;
       }
       this.createImage(file);
-    },
+    }
+    ,
     createImage(file) {
       const reader = new FileReader();
       reader.onload = e => {
         this.previewImageUrl = e.target.result;
       };
       reader.readAsDataURL(file);
-    },
+    }
+    ,
   }
 
 }

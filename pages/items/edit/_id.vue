@@ -98,8 +98,7 @@
             label="Price Negotiable"
           ></v-checkbox>
         </v-col>
-
-        <v-col cols="12">
+        <v-col cols="6">
           <v-textarea
             v-model="item.item_description"
             filled
@@ -108,14 +107,31 @@
             placeholder="Enter item description here..."
           ></v-textarea>
         </v-col>
+        <v-col cols="6">
+          <v-file-input v-model="item.item_images" filled
+                        label="Item Images"
+                        multiple name="item.item_images"
+                        placeholder="Please upload the item images..."
+                        prepend-icon=""
+                        prepend-inner-icon="fas fa-camera" @change="previewImage"
+          ></v-file-input>
+          <v-container fill-height>
+            <v-row align="center" justify="center">
+              <template v-for="previewImage in previewImageUrl">
+                <v-img :aspect-ratio="1/1"
+                       :src="previewImage?previewImage :'/images/user_image_placeholder.png'"></v-img>
+              </template>
+
+            </v-row>
+          </v-container>
+        </v-col>
       </v-row>
     </v-form>
   </v-container>
 </template>
 
 <script>
-import
-{validationMixin} from "vuelidate";
+import {validationMixin} from "vuelidate";
 import {decimal, required} from "vuelidate/lib/validators";
 import {mapActions, mapGetters, mapState} from "vuex";
 
@@ -127,7 +143,8 @@ export default {
     return {
       valid: false,
       id: null,
-      previewImageUrl: "",
+      previewImageUrl: [],
+      backendBaseUrl: process.env.BACKEND_BASE_URL,
     }
   },
   computed: {
@@ -198,24 +215,64 @@ export default {
         item_price_negotiable,
         item_description
       } = this.item;
-      this.updateItem(
-        {
-          id: this.id,
-          user_id: user_id,
-          item_category_id: item_category_id,
-          item_sub_category_id: item_sub_category_id,
-          item_name: item_name,
-          item_price: item_price,
-          item_price_negotiable: item_price_negotiable,
-          item_description: item_description,
-        }
-      );
 
+      let formData = new FormData();
+      formData.append("item", JSON.stringify({
+        user_id: user_id,
+        item_category_id: item_category_id,
+        item_sub_category_id: item_sub_category_id,
+        item_name: item_name,
+        item_price: item_price,
+        item_price_negotiable: item_price_negotiable,
+        item_description: item_description,
+      }));
+      let temp = this;
+      for (let i = 0; i < temp.item.item_images.length; i++) {
+        let file = temp.item.item_images[i];
+        formData.append('item_images[' + i + ']', file);
+      }
+
+      this.updateItem({
+        formData: formData,
+        id: temp.item.id,
+      });
     },
+    previewImage(files) {
+      let temp = this;
+      if (!files) {
+        temp.previewImageUrl = null;
+        return;
+      }
+      temp.createImage(files);
+    },
+    createImage(files) {
+      this.files = [];
+      var tempPreviewImageUrl = [];
+      const test = files.forEach((file, idx) => {
+        const fileReader = new FileReader();
+        const getResult = new Promise(resolve => {
+          fileReader.onload = e => {
+            tempPreviewImageUrl.push(
+              e.target.result
+            );
+          };
+        });
+        fileReader.readAsDataURL(file);
+        return getResult.then(file => {
+          return file;
+        });
+      });
+      this.previewImageUrl = tempPreviewImageUrl;
+    }
   },
   mounted() {
     this.id = this.$route.params.id;
-    this.fetchDetailItem(this.$route.params.id);
+    let temp = this;
+    this.fetchDetailItem(this.$route.params.id).then(function (response) {
+      JSON.parse(response.data.data.item_images.item_image_large).forEach(function (item_image_large_url) {
+        temp.previewImageUrl.push(temp.backendBaseUrl + 'storage/images/item-images/' + item_image_large_url);
+      })
+    });
   }
 
 }
